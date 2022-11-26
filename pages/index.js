@@ -1,6 +1,41 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import { useVote } from './use-vote';
+import { useCallback, useEffect, useState } from "react";
+
+const useVote = () => {
+  const [voteData, setVoteData] = useState({
+    finishedPlaceCount: 0,
+    unfinishedPlaceCount: 0,
+    agreedVoteCount: 0,
+    disagreedVoteCount: 0,
+    validVoteCount: 0,
+    invalidVoteCount: 0,
+    allVoteCount: 0,
+    allPeopleCount: 0,
+    votedFinishedPlacePercent: 0,
+    validAgreedVoteToAllPeoplePercent: 0,
+    updatedTime: 0,
+    timestamp: 0
+  });
+
+  const refetchData = useCallback(() => {
+    const fetchData = async () => {
+      const raw = await fetch("/api/vote");
+      const data = await raw.json();
+      setVoteData(data.data);
+    };
+    fetchData();
+  },[])
+
+  useEffect(() => {
+    refetchData()
+
+    const timer = setInterval(refetchData, 10000);
+    return () => clearInterval(timer)
+  }, []);
+
+  return { data: voteData, refetchData };
+}
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
