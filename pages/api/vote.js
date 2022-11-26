@@ -17,22 +17,22 @@ export default async (req, res) => {
 
   const agreedVoteCount = $(
     ".table-content > .tablesaw:nth-child(1) .numeric:nth-child(1)"
-  ).text();
+  ).text().split(',').join('');
   const disagreedVoteCount = $(
     ".table-content > .tablesaw:nth-child(1) .numeric:nth-child(2)"
-  ).text();
+  ).text().split(',').join('');
   const validVoteCount = $(
     ".table-content > .tablesaw:nth-child(2) .numeric:nth-child(1)"
-  ).text();
+  ).text().split(',').join('');
   const invalidVoteCount = $(
     ".table-content > .tablesaw:nth-child(2) .numeric:nth-child(2)"
-  ).text();
+  ).text().split(',').join('');
   const allVoteCount = $(
     ".table-content > .tablesaw:nth-child(2) .numeric:nth-child(3)"
-  ).text();
+  ).text().split(',').join('');
   const allPeopleCount = $(
     ".table-content > .tablesaw:nth-child(3) .numeric:nth-child(1)"
-  ).text();
+  ).text().split(',').join('');
   const votedFinishedPlacePercent = $(
     ".table-content > .tablesaw:nth-child(3) .numeric:nth-child(2)"
   )
