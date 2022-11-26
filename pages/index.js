@@ -166,7 +166,7 @@ export default function Home() {
         </div>
 
         <Bar
-          title="有效同意票數對選舉人數："
+          title={"有效同意票數對選舉人數："+(agreedVoteCount*100/19239392).toFixed(2)}
           partCount={agreedVoteCount}
           allCount={19239392}
           needLine={true}
