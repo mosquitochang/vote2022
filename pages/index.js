@@ -168,7 +168,7 @@ export default function Home() {
         <Bar
           title="有效同意票數對選舉人數："
           partCount={agreedVoteCount}
-          allCount={allPeopleCount > 0 ? allPeopleCount : 19239392}
+          allCount={19239392}
           needLine={true}
         />
         <Bar
