@@ -167,14 +167,14 @@ export default function Home() {
 
         <Bar
           title="有效同意票數對選舉人數："
-          partCount={validVoteCount}
+          partCount={agreedVoteCount}
           allCount={allPeopleCount > 0 ? allPeopleCount : 19239392}
           needLine={true}
         />
         <Bar
           title="開票完成度："
           partCount={finishedPlaceCount}
-          allCount={unfinishedPlaceCount}
+          allCount={unfinishedPlaceCount > 0 ? unfinishedPlaceCount : 17649 }
           isSmall={true}
         />
 
