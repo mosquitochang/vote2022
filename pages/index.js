@@ -47,14 +47,16 @@ const Bar = ({ title, partCount, allCount, needLine, isSmall }) => {
       style={{
         width: isSmall ? "50%" : "100%",
         display: "flex",
-        gap: "12px",
+        gap: isSmall ? "4px" : '12px',
         fontSize: isSmall ? "12px" : "16px",
+        flexDirection: isSmall ? "row" : "column",
+        alignItems: isSmall ? 'center' : 'stretch'
       }}
     >
       <div style={{ flex: "none" }}>{title}</div>
       <div
         style={{
-          flex: "1",
+          flex: isSmall? "1" : 'none',
           height: isSmall ? "25px" : "50px",
           border: "1px solid #000",
           position: "relative",
@@ -147,7 +149,7 @@ export default function Home() {
           style={{
             textAlign: "center",
             width: "100%",
-            fontSize: "24px",
+            fontSize: "20px",
             fontWeight: "700",
           }}
         >
