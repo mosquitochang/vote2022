@@ -1,12 +1,60 @@
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
+  const [voteData, setVoteData] = useState({
+    finishedPlaceCount: 0,
+    unfinishedPlaceCount: 0,
+    agreedVoteCount: 0,
+    disagreedVoteCount: 0,
+    validVoteCount: 0,
+    invalidVoteCount: 0,
+    allVoteCount: 0,
+    votedPeopleCount: 0,
+    votedFinishedPlacePercent: 0,
+    validAgreedVoteToVotedPeoplePercent: 0,
+  });
+  const {
+    finishedPlaceCount,
+    unfinishedPlaceCount,
+    agreedVoteCount,
+    disagreedVoteCount,
+    validVoteCount,
+    invalidVoteCount,
+    allVoteCount,
+    votedPeopleCount,
+    votedFinishedPlacePercent,
+    validAgreedVoteToVotedPeoplePercent,
+  } = voteData
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const raw = await fetch("/api/vote");
+      const data = await raw.json();
+      setVoteData(data.data);
+    }
+    fetchData()
+  }, [])
+
   return (
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
       </Head>
+
+      <div>
+        <div>{finishedPlaceCount}</div>
+        <div>{unfinishedPlaceCount}</div>
+        <div>{agreedVoteCount}</div>
+        <div>{disagreedVoteCount}</div>
+        <div>{validVoteCount}</div>
+        <div>{invalidVoteCount}</div>
+        <div>{allVoteCount}</div>
+        <div>{votedPeopleCount}</div>
+        <div>{votedFinishedPlacePercent}</div>
+        <div>{validAgreedVoteToVotedPeoplePercent}</div>
+      </div>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
