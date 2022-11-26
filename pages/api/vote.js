@@ -30,7 +30,7 @@ export default async (req, res) => {
   const allVoteCount = $(
     ".table-content > .tablesaw:nth-child(2) .numeric:nth-child(3)"
   ).text();
-  const votedPeopleCount = $(
+  const allPeopleCount = $(
     ".table-content > .tablesaw:nth-child(3) .numeric:nth-child(1)"
   ).text();
   const votedFinishedPlacePercent = $(
@@ -38,11 +38,17 @@ export default async (req, res) => {
   )
     .text()
     .split("%")[0];
-  const validAgreedVoteToVotedPeoplePercent = $(
+  const validAgreedVoteToAllPeoplePercent = $(
     ".table-content > .tablesaw:nth-child(4) .numeric:nth-child(1)"
   )
     .text()
     .split("%")[0];
+
+  const updatedTime = $(".table-footer-right")
+    .text()
+    .split("資料更新時間:")[1].trim();
+
+  const timestamp = Date.now()
   
   res.status(200).json({
     data: {
@@ -53,9 +59,11 @@ export default async (req, res) => {
       validVoteCount,
       invalidVoteCount,
       allVoteCount,
-      votedPeopleCount,
+      allPeopleCount,
       votedFinishedPlacePercent,
-      validAgreedVoteToVotedPeoplePercent,
+      validAgreedVoteToAllPeoplePercent,
+      updatedTime,
+      timestamp
     },
   });
 };

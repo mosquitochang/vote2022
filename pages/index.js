@@ -1,107 +1,162 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
+import { useVote } from './use-vote';
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+const Bar = ({ title, partCount, allCount, needLine, isSmall }) => {
+  return (
+    <div
+      style={{
+        width: isSmall ? "50%" : "100%",
+        display: "flex",
+        gap: "12px",
+        fontSize: isSmall ? "12px" : "16px",
+      }}
+    >
+      <div style={{ flex: "none" }}>{title}</div>
+      <div
+        style={{
+          flex: "1",
+          height: isSmall ? "25px" : "50px",
+          border: "1px solid #000",
+          position: "relative",
+          background: "#fff",
+        }}
+      >
+        <div
+          style={{
+            width: `${(partCount * 100) / allCount}%`,
+            height: "100%",
+            background: "#000",
+          }}
+        ></div>
+        <div
+          style={{
+            position: "absolute",
+            bottom: "4px",
+            left: "4px",
+            mixBlendMode: "difference",
+            color: "#fff",
+            zIndex: "10",
+          }}
+        >
+          {numberWithCommas(partCount)} / {numberWithCommas(allCount)}
+        </div>
+        {needLine && (
+          <div
+            style={{
+              position: "absolute",
+              top: "0",
+              left: "50%",
+              height: "100%",
+              borderLeft: "1px dotted #fff",
+              mixBlendMode: "difference",
+              display: "flex",
+              alignItems: "flex-end",
+              fontSize: "12px",
+              paddingBottom: "4px",
+              color: "#fff",
+            }}
+          >
+            （過半門檻）
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default function Home() {
-  const [voteData, setVoteData] = useState({
-    finishedPlaceCount: 0,
-    unfinishedPlaceCount: 0,
-    agreedVoteCount: 0,
-    disagreedVoteCount: 0,
-    validVoteCount: 0,
-    invalidVoteCount: 0,
-    allVoteCount: 0,
-    votedPeopleCount: 0,
-    votedFinishedPlacePercent: 0,
-    validAgreedVoteToVotedPeoplePercent: 0,
-  });
   const {
-    finishedPlaceCount,
-    unfinishedPlaceCount,
-    agreedVoteCount,
-    disagreedVoteCount,
-    validVoteCount,
-    invalidVoteCount,
-    allVoteCount,
-    votedPeopleCount,
-    votedFinishedPlacePercent,
-    validAgreedVoteToVotedPeoplePercent,
-  } = voteData
+    data: {
+      finishedPlaceCount,
+      unfinishedPlaceCount,
+      agreedVoteCount,
+      disagreedVoteCount,
+      validVoteCount,
+      invalidVoteCount,
+      allVoteCount,
+      allPeopleCount,
+      votedFinishedPlacePercent,
+      validAgreedVoteToAllPeoplePercent,
+      updatedTime,
+      timestamp,
+    },
+    refetchData,
+  } = useVote();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const raw = await fetch("/api/vote");
-      const data = await raw.json();
-      setVoteData(data.data);
-    }
-    fetchData()
-  }, [])
+  const dateString = new Date(timestamp).toLocaleTimeString('zh-TW')
+
+
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>憲法修正案公民複決第1案開票狀況</title>
       </Head>
 
-      <div>
-        <div>{finishedPlaceCount}</div>
-        <div>{unfinishedPlaceCount}</div>
-        <div>{agreedVoteCount}</div>
-        <div>{disagreedVoteCount}</div>
-        <div>{validVoteCount}</div>
-        <div>{invalidVoteCount}</div>
-        <div>{allVoteCount}</div>
-        <div>{votedPeopleCount}</div>
-        <div>{votedFinishedPlacePercent}</div>
-        <div>{validAgreedVoteToVotedPeoplePercent}</div>
-      </div>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+          width: "100%",
+          gap: "16px",
+          padding: "16px",
+        }}
+      >
+        <div
+          style={{
+            textAlign: "center",
+            width: "100%",
+            fontSize: "24px",
+            fontWeight: "700",
+          }}
+        >
+          憲法修正案公民複決第1案開票狀況
         </div>
-      </main>
+        <div
+          style={{
+            textAlign: "center",
+            width: "100%",
+            marginBottom: "24px",
+          }}
+        >
+          （資料來源：中選會）
+        </div>
 
-      <footer className={styles.footer}>
-        <a href="https://next.new" target="_blank" rel="noopener noreferrer">
-          Created with&nbsp;<b>next.new</b>&nbsp;⚡️
-        </a>
-      </footer>
+        <Bar
+          title="有效同意票數對選舉人數："
+          partCount={validVoteCount}
+          allCount={allPeopleCount > 0 ? allPeopleCount : 19239392}
+          needLine={true}
+        />
+        <Bar
+          title="開票完成度："
+          partCount={finishedPlaceCount}
+          allCount={unfinishedPlaceCount}
+          isSmall={true}
+        />
+
+        <div
+          style={{
+            marginTop: "36px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            width: "100%",
+            gap: "16px",
+          }}
+        >
+          <div>最後更新時間：{dateString}</div>
+          <button onClick={refetchData}>
+            手動更新（資料每10秒會自動更新）
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
