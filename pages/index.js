@@ -119,6 +119,9 @@ export default function Home() {
 
   const dateString = new Date(timestamp).toLocaleTimeString('zh-TW');
 
+  const useless = 1;
+  const useless2 = useless ? 2 : 2;
+
   return (
     <div className={styles.container}>
       <Head>
