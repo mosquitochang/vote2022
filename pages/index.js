@@ -120,13 +120,15 @@ export default function Home() {
   const dateString = new Date(timestamp).toLocaleTimeString('zh-TW');
 
   const useless = 1;
-  const useless2 = useless ? 2 : 2;
+  const useless2 = useless ? 2 : 3;
 
   return (
     <div className={styles.container}>
       <Head>
         <title>憲法修正案公民複決第1案開票狀況</title>
       </Head>
+
+      <p>{useless2}</p>
 
       <div
         style={{
