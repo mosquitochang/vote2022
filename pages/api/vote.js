@@ -1,8 +1,9 @@
 import * as cheerio from "cheerio";
 
 export default async (req, res) => {
+  const corsanywhere = 'https://lui2mi-corsanywhere.fly.dev/';
   const data = await fetch(
-    "https://referendum.2022.nat.gov.tw/zh-TW/F1/00000000000000000.html"
+    corsanywhere + "https://referendum.2022.nat.gov.tw/zh-TW/F1/00000000000000000.html"
   );
   const body = await data.text();
   const $ = cheerio.load(body);
